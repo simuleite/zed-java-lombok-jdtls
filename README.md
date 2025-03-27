@@ -45,7 +45,7 @@ def main(args):
    - Copy `lombok-1.18.36.jar` to:
 `extensions/lombok/lombok-1.18.36.jar`
 (Create the "lombok" directory if it doesn't exist)
-   - Copy both `lombok.jar` and the `jdtls_lombok` configuration files into your jdtls installation folder.
+   - Place the `jdtls_lombok` configuration files in your jdtls installation folder
 
 ## Configuration
 
@@ -71,7 +71,7 @@ Edit your Zed `settings.json` file:
 ## Verification
 
 After setup:
-1. Open a Java project with Lombok annotations
+1. Open a Java project with Lombok annotations (you can use the included `test-lombok` project as an example)
 2. Verify that:
    - Code completion works
    - Lombok-generated methods are recognized
