@@ -12,19 +12,22 @@ This project extends the original `jdtls.py` script to add Lombok support for Ja
 base_dir = Path(__file__).parent.parent
 DEFAULT_LOMBOK_JAR = base_dir / f"extensions/lombok/lombok-{DEFAULT_LOMBOK_VERSION}.jar"
 
-...
-
 def main(args):
-    parser.add_argument('--lombok-enabled',
-                       action='store_true',
-                       default=True,
-                       help='Enable Lombok support (default: true)')
-    parser.add_argument('--lombok-jar',
-                       default=DEFAULT_LOMBOK_JAR,
-                       help=f'Path to Lombok JAR (default: {DEFAULT_LOMBOK_JAR})')
-    parser.add_argument('--lombok-version',
-                       default=DEFAULT_LOMBOK_VERSION,
-                       help=f'Lombok version (default: {DEFAULT_LOMBOK_VERSION})')
+    ...
+   
+    lombok_jvm_args = [
+        f"-javaagent:{known_args.lombok_jar}",
+        f"-Xbootclasspath/a:{known_args.lombok_jar}",
+        "-Dlog.level=ALL"
+    ]
+    known_args.jvm_arg = lombok_jvm_args + known_args.jvm_arg
+
+    exec_args = [
+        ...
+    ] + known_args.jvm_arg + [
+        "-jar", str(jar_path),
+        "-data", str(jdtls_data_path),
+    ] + args
 ```
 
 ## Prerequisites
@@ -73,6 +76,12 @@ After setup:
    - Code completion works
    - Lombok-generated methods are recognized
    - No "cannot resolve symbol" errors appear for Lombok annotations
+
+Here's an example showing Lombok annotations being correctly recognized and parsed:
+
+![Lombok Annotations Working](Source/example.png)
+
+As shown in the image above, the Lombok annotations are properly processed without any "cannot resolve symbol" errors, and all generated methods are accessible.
 
 ## Troubleshooting
 
